@@ -26,8 +26,8 @@
   --line:#253740;
   --mist:#d3dedc;
   --dim:#8a9ea0;
-  --candle:#e9c690;
-  --candle-soft:rgba(233,198,144,.12);
+  --candle:#ffb867;
+  --candle-soft:rgba(255,184,103,.18);
   --display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --ui:'Jost', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
@@ -59,7 +59,7 @@ h1{font-family:var(--display);font-weight:300;font-style:italic;font-size:2.4rem
   border:1px solid var(--candle);background:var(--candle-soft);color:var(--candle);
   display:grid;place-items:center;cursor:pointer;transition:background .6s, transform .3s;
 }
-.play:hover{background:rgba(233,198,144,.2)}
+.play:hover{background:rgba(255,184,103,.28)}
 .play:active{transform:scale(.96)}
 .play svg{width:26px;height:26px}
 .playlabel{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:-10px}
@@ -83,7 +83,7 @@ h3{font-family:var(--display);font-style:italic;font-weight:300;font-size:1.15re
 .sound b{font-family:var(--display);font-weight:400;font-size:1.3rem;line-height:1.1}
 .sound span{color:var(--dim);font-size:.8rem;line-height:1.4}
 .sound{position:relative}
-.sound[aria-pressed="true"]{border-color:var(--candle);background:linear-gradient(var(--candle-soft),var(--candle-soft)),var(--surface);box-shadow:0 0 18px rgba(233,198,144,.16)}
+.sound[aria-pressed="true"]{border-color:var(--candle);background:linear-gradient(var(--candle-soft),var(--candle-soft)),var(--surface);box-shadow:0 0 22px rgba(255,184,103,.26)}
 .sound[aria-pressed="true"] svg{color:var(--candle)}
 .sound[aria-pressed="true"] b{color:var(--candle)}
 .sound .tag{position:absolute;top:13px;right:13px;display:none;align-items:center;gap:6px;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--candle);font-style:normal}
@@ -92,12 +92,12 @@ h3{font-family:var(--display);font-style:italic;font-weight:300;font-size:1.15re
 .is-playing .sound[aria-pressed="true"] .tag{display:flex}
 .is-playing .sound[aria-pressed="true"] .tag::before{animation:beat 6s ease-in-out infinite}
 @keyframes glow{
-  0%,100%{box-shadow:0 0 0 1px var(--candle),0 0 14px rgba(233,198,144,.16)}
-  50%{box-shadow:0 0 0 1px var(--candle),0 0 36px rgba(233,198,144,.42)}
+  0%,100%{box-shadow:0 0 0 1px var(--candle),0 0 16px rgba(255,184,103,.26)}
+  50%{box-shadow:0 0 0 1px var(--candle),0 0 42px rgba(255,184,103,.6)}
 }
 @keyframes beat{0%,100%{opacity:.45}50%{opacity:1}}
 @media (prefers-reduced-motion: reduce){
-  .is-playing .sound[aria-pressed="true"]{animation:none;box-shadow:0 0 0 1px var(--candle),0 0 28px rgba(233,198,144,.32)}
+  .is-playing .sound[aria-pressed="true"]{animation:none;box-shadow:0 0 0 1px var(--candle),0 0 32px rgba(255,184,103,.45)}
   .is-playing .sound[aria-pressed="true"] .tag::before{animation:none}
 }
 
@@ -776,8 +776,8 @@ function paint(breath, progress){
   const w = cv.width, c = w/2, R = c - 4*(devicePixelRatio||1);
   g2.clearRect(0,0,w,w);
   const gr = g2.createRadialGradient(c,c,0,c,c,R*.95);
-  gr.addColorStop(0, rgba(C.candle, .08 + .1*breath));
-  gr.addColorStop(.55, rgba(C.candle, .03 + .03*breath));
+  gr.addColorStop(0, rgba(C.candle, .12 + .14*breath));
+  gr.addColorStop(.55, rgba(C.candle, .05 + .05*breath));
   gr.addColorStop(1, rgba(C.candle, 0));
   g2.fillStyle = gr; g2.beginPath(); g2.arc(c,c,R,0,Math.PI*2); g2.fill();
   if(S && !reduce.matches){
@@ -787,7 +787,7 @@ function paint(breath, progress){
       if(ct < e.at) continue;
       const life = e.kind === 'deep' ? 14 : 9, p = (ct - e.at)/life;
       const r = R*.12 + R*.8*(1 - Math.pow(1-p, 2.2));
-      const a = Math.pow(1-p, 1.6)*(e.kind === 'piano' ? .4 : .55);
+      const a = Math.pow(1-p, 1.6)*(e.kind === 'piano' ? .4 : .75);
       g2.strokeStyle = rgba(e.kind === 'piano' ? C.mist : C.candle, a);
       g2.lineWidth = (e.kind === 'deep' ? 2.2 : 1.1)*(devicePixelRatio||1);
       g2.beginPath(); g2.arc(c,c,r,0,Math.PI*2); g2.stroke();
@@ -796,7 +796,7 @@ function paint(breath, progress){
   g2.lineWidth = 1.5*(devicePixelRatio||1);
   g2.strokeStyle = C.line; g2.beginPath(); g2.arc(c,c,R,0,Math.PI*2); g2.stroke();
   if(progress > 0){
-    g2.strokeStyle = rgba(C.candle, .8); g2.beginPath();
+    g2.strokeStyle = rgba(C.candle, 1); g2.beginPath();
     g2.arc(c,c,R,-Math.PI/2,-Math.PI/2 + Math.PI*2*progress); g2.stroke();
   }
 }
