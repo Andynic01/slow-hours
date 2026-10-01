@@ -73,6 +73,7 @@ h2{font-family:var(--ui);font-weight:400;font-size:.75rem;letter-spacing:.18em;t
 .hint{color:var(--dim);font-size:.85rem;margin:0}
 
 .sounds{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+h3{font-family:var(--display);font-style:italic;font-weight:300;font-size:1.15rem;color:var(--dim);margin:6px 0 -4px}
 .sound{
   text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;
   padding:14px 14px 13px;color:var(--mist);font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0;
@@ -159,7 +160,8 @@ html[data-app] .web-only{display:none}
 
   <section>
     <h2>Sound</h2>
-    <div class="sounds" id="sounds">
+    <h3>Music</h3>
+    <div class="sounds">
       <button class="sound" data-p="piano" aria-pressed="true">
         <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="2" width="26" height="16" rx="1.5"/><path d="M7.5 2v16M14 2v16M20.5 2v16"/><path d="M5.5 2v9h4V2M18.5 2v9h4V2" fill="currentColor" stroke="none"/></svg>
         <b>Felt Piano</b><span>Single soft notes, long pauses, a warm room.</span>
@@ -183,6 +185,25 @@ html[data-app] .web-only{display:none}
       <button class="sound" data-p="offworld" aria-pressed="false">
         <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="14" cy="10" r="5.5"/><ellipse cx="14" cy="10" rx="12" ry="3.2" transform="rotate(-14 14 10)"/></svg>
         <b>Off-World</b><span>Huge drifting synth chords and far bells. No melody at all.</span>
+      </button>
+    </div>
+    <h3>Nature</h3>
+    <div class="sounds">
+      <button class="sound" data-p="slowrain" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M6 2v4M14 5v4M22 1v4M10 11v4M18 13v4M3 14v3M25 10v3"/></svg>
+        <b>Slow Rain</b><span>Steady soft rain falling on leaves. No music.</span>
+      </button>
+      <button class="sound" data-p="storm" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><path d="M7 11a4.5 4.5 0 0 1 .6-9 6 6 0 0 1 11.3 1.6A4 4 0 0 1 21 11z"/><path d="M14 11l-2.5 4h3.5l-2 4"/></svg>
+        <b>Soft Storm</b><span>Heavy rain, with far-off thunder rolling in now and then.</span>
+      </button>
+      <button class="sound" data-p="river" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M2 5c5 0 5 3 10 3s5-3 10-3h4"/><path d="M2 11c5 0 5 3 10 3s5-3 10-3h4"/><circle cx="7" cy="17" r="1.2"/><circle cx="20" cy="18" r=".9"/></svg>
+        <b>Gentle River</b><span>A shallow stream running over stones.</span>
+      </button>
+      <button class="sound" data-p="rainpiano" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><rect x="1" y="9" width="26" height="10" rx="1.5"/><path d="M8 9v10M14 9v10M20 9v10"/><path d="M6 1v4M14 2v4M22 1v4"/></svg>
+        <b>Rain &amp; Piano</b><span>Felt piano by an open window, a storm far away.</span>
       </button>
     </div>
   </section>
@@ -227,7 +248,10 @@ html[data-app] .web-only{display:none}
       <label for="m-air">Air<small>distant sea hush</small></label><input type="range" id="m-air" min="0" max="1" step="0.01">
       <label for="m-synth">Synth swells<small>slow 80s brass chords</small></label><input type="range" id="m-synth" min="0" max="1" step="0.01">
       <label for="m-lead">Synth lead<small>lonely line with echo</small></label><input type="range" id="m-lead" min="0" max="1" step="0.01">
-      <label for="m-rain">Rain<small>on the window</small></label><input type="range" id="m-rain" min="0" max="1" step="0.01">
+      <label for="m-rain">Rain on glass<small>drops on the window</small></label><input type="range" id="m-rain" min="0" max="1" step="0.01">
+      <label for="m-shower">Slow rain<small>soft, on leaves</small></label><input type="range" id="m-shower" min="0" max="1" step="0.01">
+      <label for="m-thunder">Thunder<small>far away, now and then</small></label><input type="range" id="m-thunder" min="0" max="1" step="0.01">
+      <label for="m-river">River<small>shallow stream</small></label><input type="range" id="m-river" min="0" max="1" step="0.01">
     </div>
   </section>
 
@@ -250,13 +274,18 @@ const PRESETS = {
   night:   {name:'Night Mix',    harmony:'major', mix:{piano:.6, bells:.45, bass:.55, pad:.3,  air:.1}},
   city:    {name:'Night City',   harmony:'minor', mix:{bass:.6, synth:.7, lead:.55, rain:.45}},
   offworld:{name:'Off-World',    harmony:'minor', mix:{bells:.3, bass:.75, pad:.2, air:.15, synth:.8}},
+  slowrain:{name:'Slow Rain',    harmony:'major', mix:{shower:.8, rain:.12}},
+  storm:   {name:'Soft Storm',   harmony:'major', mix:{shower:.75, rain:.25, thunder:.8}},
+  river:   {name:'Gentle River', harmony:'major', mix:{river:.8, air:.12}},
+  rainpiano:{name:'Rain & Piano',harmony:'major', mix:{piano:.65, pad:.15, bass:.3, shower:.55, thunder:.3}},
 };
 const PACE = {slow:.75, slower:1, slowest:1.5};
-const LAYERS = ['piano','bells','bass','pad','air','synth','lead','rain'];
+const LAYERS = ['piano','bells','bass','pad','air','synth','lead','rain','shower','thunder','river'];
 const SILENT = Object.fromEntries(LAYERS.map(k => [k,0]));
 for(const p of Object.values(PRESETS)) p.mix = {...SILENT, ...p.mix};
 const ROUTE = {piano:{dry:.55,wet:.6}, bells:{dry:.45,wet:.7}, bass:{dry:1,wet:.12}, pad:{dry:.6,wet:.5}, air:{dry:.8,wet:.25},
-               synth:{dry:.55,wet:.75,echo:.18}, lead:{dry:.45,wet:.7,echo:.5}, rain:{dry:.9,wet:.15}};
+               synth:{dry:.55,wet:.75,echo:.18}, lead:{dry:.45,wet:.7,echo:.5}, rain:{dry:.9,wet:.15},
+               shower:{dry:.85,wet:.2}, thunder:{dry:.8,wet:.35}, river:{dry:.85,wet:.15}};
 const KEY = 1; // everything sits in D flat (major) or B flat minor
 // Roots are deep bass MIDI notes; pcs are the chord's pitch classes (9th chords).
 const PROGS = {
@@ -464,6 +493,86 @@ function leadPhrase(t, P){
   return nt - t;
 }
 
+// Soft rain on leaves: a warm hiss plus single drops. Two loops of different lengths so the pattern doesn't audibly repeat.
+function startShower(){
+  const rate = ctx.sampleRate, nodes = [];
+  const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 4200;
+  const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 250;
+  const g = ctx.createGain(); g.gain.value = .55;
+  const lfo = ctx.createOscillator(), lfoG = ctx.createGain();
+  lfo.frequency.value = .02; lfoG.gain.value = .15; lfo.connect(lfoG); lfoG.connect(g.gain);
+  lp.connect(hp); hp.connect(g); g.connect(S.buses.shower);
+  [13, 17].forEach(sec => {
+    const len = Math.floor(rate*sec), b = ctx.createBuffer(2, len, rate);
+    for(let ch=0; ch<2; ch++){
+      const d = b.getChannelData(ch); let y = 0;
+      for(let i=0;i<len;i++){ y += .25*((Math.random()*2-1) - y); d[i] = y*.45; }
+      for(let k=0;k<sec*9;k++){
+        const dl = rand(60,350), pos = Math.floor(Math.random()*(len - dl*5)), amp = .1 + Math.pow(Math.random(),3)*.5;
+        const f = rand(1400,4200), tone = Math.random() < .5;
+        for(let j=0;j<dl*5;j++) d[pos+j] += amp*Math.exp(-j/dl)*(tone ? Math.sin(2*Math.PI*f*j/rate) : (Math.random()*2-1))*.6;
+      }
+    }
+    const src = ctx.createBufferSource(); src.buffer = b; src.loop = true;
+    src.connect(lp); src.start(); nodes.push(src);
+  });
+  lfo.start(); nodes.push(lfo);
+  return nodes;
+}
+
+// A babbling stream: noise through narrow filters that wander, plus a low body and the odd bubble (scheduled in riverStep).
+function startRiver(){
+  const rate = ctx.sampleRate, len = rate*6, b = ctx.createBuffer(1, len, rate), d = b.getChannelData(0);
+  for(let i=0;i<len;i++) d[i] = Math.random()*2-1;
+  const nodes = [];
+  S.riverF = [];
+  for(let i=0;i<5;i++){
+    const src = ctx.createBufferSource(); src.buffer = b; src.loop = true;
+    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = rand(3,7); bp.frequency.value = rand(500,2000);
+    const g = ctx.createGain(); g.gain.value = .2;
+    const pan = ctx.createStereoPanner(); pan.pan.value = -.8 + i*.4;
+    src.connect(bp); bp.connect(g); g.connect(pan); pan.connect(S.buses.river);
+    src.start(0, rand(0,5)); nodes.push(src); S.riverF.push({bp, g});
+  }
+  const body = ctx.createBufferSource(); body.buffer = b; body.loop = true;
+  const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 450;
+  const bg = ctx.createGain(); bg.gain.value = .35;
+  body.connect(lp); lp.connect(bg); bg.connect(S.buses.river); body.start(0, 2.5); nodes.push(body);
+  return nodes;
+}
+
+function riverStep(t){
+  for(const f of S.riverF){
+    if(Math.random() < .5){
+      f.bp.frequency.setTargetAtTime(rand(450,2400), t, rand(.03,.12));
+      f.g.gain.setTargetAtTime(rand(.08,.5), t, .06);
+    }
+  }
+  if(Math.random() < .1){
+    const o = ctx.createOscillator(), g = ctx.createGain(), f0 = rand(400,900);
+    o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f0*rand(1.6,2.4), t + rand(.04,.08));
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(rand(.03,.08), t+.005); g.gain.setTargetAtTime(0, t+.01, .03);
+    o.connect(g); g.connect(S.buses.river); o.start(t); o.stop(t+.3);
+  }
+}
+
+// Distant thunder: brown noise through a closing low filter, a few swells, then a long fade.
+function thunder(t){
+  const src = ctx.createBufferSource(); src.buffer = S.brown; src.loop = true; src.playbackRate.value = rand(.6,.9);
+  const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = .7;
+  lp.frequency.setValueAtTime(rand(380,650), t); lp.frequency.setTargetAtTime(110, t+1.2, 3);
+  const g = ctx.createGain(), pan = ctx.createStereoPanner(), out = ctx.createGain();
+  pan.pan.value = rand(-.6,.6); out.gain.value = 1.6;
+  g.gain.setValueAtTime(0, t);
+  let tt = t;
+  const swells = 2 + Math.floor(Math.random()*3);
+  for(let k=0;k<swells;k++){ g.gain.setTargetAtTime(rand(.4,1)*(1 - k*.12), tt, rand(.25,.6)); tt += rand(.5,1.8); }
+  g.gain.setTargetAtTime(0, tt, rand(2.5,4));
+  src.connect(lp); lp.connect(g); g.connect(pan); pan.connect(out); out.connect(S.buses.thunder);
+  src.start(t, rand(0,5)); src.stop(tt + 20);
+  S.events.push({at:t, kind:'deep'});
+}
+
 function startRain(){
   const rate = ctx.sampleRate, len = rate*12, b = ctx.createBuffer(2, len, rate);
   for(let ch=0; ch<2; ch++){
@@ -528,6 +637,14 @@ function schedule(){
     const t = S.nextLead, len = on('lead') ? leadPhrase(t, P) : 6*P;
     S.nextLead = t + len + rand(8,16)*P;
   }
+  while(S.nextThunder < now + LOOK){
+    if(on('thunder')) thunder(S.nextThunder);
+    S.nextThunder += rand(35,90);
+  }
+  while(S.nextRiver < now + LOOK){
+    if(on('river')) riverStep(S.nextRiver);
+    S.nextRiver += rand(.06,.18);
+  }
 }
 
 function melodyNote(t){
@@ -586,8 +703,10 @@ function start(){
     if(ROUTE[k].echo){ const e = ctx.createGain(); e.gain.value = ROUTE[k].echo; b.connect(e); e.connect(echoIn); }
   });
   S = {fade, vol, comp, buses, events:[], chords:[], chordIdx:0, nextChord:now+.2, nextPiano:now+2.5, nextBell:now+5,
-       nextLead:now+7, leadNote:69, phrase:0, mel:67, startWall:Date.now(), endWall:Date.now() + state.minutes*60000};
-  S.air = [...startAir(), ...startRain()];
+       nextLead:now+7, nextThunder:now+rand(8,20), nextRiver:now+.1, leadNote:69, phrase:0, mel:67, startWall:Date.now(), endWall:Date.now() + state.minutes*60000};
+  S.brown = (() => { const len = ctx.sampleRate*10, b = ctx.createBuffer(1, len, ctx.sampleRate), d = b.getChannelData(0);
+    let y = 0; for(let i=0;i<len;i++){ y = (y + .02*(Math.random()*2-1))/1.02; d[i] = y*3.5; } return b; })();
+  S.air = [...startAir(), ...startRain(), ...startShower(), ...startRiver()];
   scheduleFade(true);
   schedule();
   S.timer = setInterval(tick, 250);
