@@ -73,7 +73,7 @@ h2{font-family:var(--ui);font-weight:400;font-size:.75rem;letter-spacing:.18em;t
 .hint{color:var(--dim);font-size:.85rem;margin:0}
 
 .sounds{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-h3{font-family:var(--display);font-style:italic;font-weight:300;font-size:1.15rem;color:var(--dim);margin:6px 0 -4px}
+.sounds[hidden]{display:none}
 .sound{
   text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;
   padding:14px 14px 13px;color:var(--mist);font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0;
@@ -112,7 +112,12 @@ h3{font-family:var(--display);font-style:italic;font-weight:300;font-size:1.15re
 .seg button+button{border-left:1px solid var(--line)}
 .seg button[aria-pressed="true"]{background:var(--candle-soft);color:var(--candle)}
 
+.seg.groups{grid-template-columns:repeat(4,1fr)}
+.seg.groups button{font-size:.82rem;padding:10px 2px}
+
 .mix{display:grid;grid-template-columns:auto 1fr;gap:12px 16px;align-items:center}
+.layer{display:contents}
+.layer[hidden]{display:none}
 .mix label{font-size:.9rem}
 .mix small{display:block;color:var(--dim);font-size:.75rem;line-height:1.3}
 
@@ -160,8 +165,13 @@ html[data-app] .web-only{display:none}
 
   <section>
     <h2>Sound</h2>
-    <h3>Music</h3>
-    <div class="sounds">
+    <div class="seg groups" id="groups">
+      <button data-g="music">Music</button>
+      <button data-g="instruments">Instruments</button>
+      <button data-g="nature">Nature</button>
+      <button data-g="ambient">Ambient</button>
+    </div>
+    <div class="sounds" data-g="music">
       <button class="sound" data-p="piano" aria-pressed="true">
         <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="2" width="26" height="16" rx="1.5"/><path d="M7.5 2v16M14 2v16M20.5 2v16"/><path d="M5.5 2v9h4V2M18.5 2v9h4V2" fill="currentColor" stroke="none"/></svg>
         <b>Felt Piano</b><span>Single soft notes, long pauses, a warm room.</span>
@@ -187,8 +197,49 @@ html[data-app] .web-only{display:none}
         <b>Off-World</b><span>Huge drifting synth chords and far bells. No melody at all.</span>
       </button>
     </div>
-    <h3>Nature</h3>
-    <div class="sounds">
+    <div class="sounds" data-g="instruments">
+      <button class="sound" data-p="softpiano" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="4" width="22" height="13" rx="1.5"/><path d="M10.3 4v13M17.6 4v13"/><path d="M8.5 4v7h3.6V4M15.8 4v7h3.6V4" fill="currentColor" stroke="none"/></svg>
+        <b>Soft Piano</b><span>Felt piano on its own. No bass, no pad, just the notes.</span>
+      </button>
+      <button class="sound" data-p="panpipes" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M4 3v15M8 3v13M12 3v11M16 3v9M20 3v7M24 3v5"/><path d="M2 6h24"/></svg>
+        <b>Panpipes</b><span>Breathy wooden pipes, a few notes at a time.</span>
+      </button>
+      <button class="sound" data-p="bamboo" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="8" width="26" height="4" rx="2"/><path d="M7 8v4"/><g fill="currentColor" stroke="none"><circle cx="13" cy="10" r=".9"/><circle cx="17" cy="10" r=".9"/><circle cx="21" cy="10" r=".9"/></g></svg>
+        <b>Bamboo Flute</b><span>A slow flute that bends gently into each note.</span>
+      </button>
+      <button class="sound" data-p="nativeflute" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="10" width="26" height="4" rx="2"/><path d="M6 10V7h5v3"/><g fill="currentColor" stroke="none"><circle cx="15" cy="12" r=".9"/><circle cx="19" cy="12" r=".9"/><circle cx="23" cy="12" r=".9"/></g></svg>
+        <b>Native Flute</b><span>Low, hollow flute tones in a minor key.</span>
+      </button>
+      <button class="sound" data-p="harp" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><path d="M5 19V2c8 2 14 8 18 17z"/><path d="M9 4v15M13 6.5v12.5M17 10v9"/></svg>
+        <b>Harp</b><span>Single plucked notes and slow rolled chords.</span>
+      </button>
+      <button class="sound" data-p="guitar" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><circle cx="9" cy="13" r="5.5"/><circle cx="9" cy="13" r="1.6"/><path d="M13 9 25 2"/></svg>
+        <b>Acoustic Guitar</b><span>Nylon strings, slowly fingerpicked.</span>
+      </button>
+      <button class="sound" data-p="cello" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M14 1v4M11 5h6c-1 2 3 4 3 7s-3 7-6 7-6-4-6-7 4-5 3-7z"/><path d="M3 16 25 8"/></svg>
+        <b>Soft Cello</b><span>Long, warm bowed notes, low and unhurried.</span>
+      </button>
+      <button class="sound" data-p="bowls" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M3 8h22c0 6-5 10-11 10S3 14 3 8z"/><path d="M10 4.5c1-1.2 2 .6 3-.6M15 4c1-1.2 2 .6 3-.6"/></svg>
+        <b>Singing Bowls</b><span>Bronze bowls struck softly, humming for half a minute.</span>
+      </button>
+      <button class="sound" data-p="handpan" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2"><ellipse cx="14" cy="10" rx="12.5" ry="6.5"/><circle cx="14" cy="9.5" r="2.2"/><circle cx="7" cy="10.5" r="1.3"/><circle cx="21" cy="10.5" r="1.3"/></svg>
+        <b>Handpan</b><span>Round steel notes that ring and slowly fade.</span>
+      </button>
+      <button class="sound" data-p="marimba" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M3 4v13M7.5 5v11M12 6v9M16.5 7v7M21 8v5" stroke-width="2.4"/><path d="M19 2.5 24 5.5"/><circle cx="25.2" cy="6.3" r="1.3"/></svg>
+        <b>Soft Marimba</b><span>Wooden bars, struck gently with soft mallets.</span>
+      </button>
+    </div>
+    <div class="sounds" data-g="nature">
       <button class="sound" data-p="slowrain" aria-pressed="false">
         <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M6 2v4M14 5v4M22 1v4M10 11v4M18 13v4M3 14v3M25 10v3"/></svg>
         <b>Slow Rain</b><span>Steady soft rain falling on leaves. No music.</span>
@@ -204,6 +255,76 @@ html[data-app] .web-only{display:none}
       <button class="sound" data-p="rainpiano" aria-pressed="false">
         <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><rect x="1" y="9" width="26" height="10" rx="1.5"/><path d="M8 9v10M14 9v10M20 9v10"/><path d="M6 1v4M14 2v4M22 1v4"/></svg>
         <b>Rain &amp; Piano</b><span>Felt piano by an open window, a storm far away.</span>
+      </button>
+      <button class="sound" data-p="brook" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M2 8c3-2 5 2 8 0s5 2 8 0 5 2 8 0"/><ellipse cx="8" cy="15" rx="3.2" ry="1.7"/><ellipse cx="19" cy="16" rx="4.2" ry="1.9"/></svg>
+        <b>Babbling Brook</b><span>A quick little stream bubbling over pebbles.</span>
+      </button>
+      <button class="sound" data-p="window" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><rect x="4" y="2" width="20" height="16" rx="1"/><path d="M14 2v16M4 10h20"/><path d="M8 4.5v2M19 12.5v2M10 13v1.5M20 5v1.5"/></svg>
+        <b>Rain on a Window</b><span>Drops tapping on the glass, close by.</span>
+      </button>
+      <button class="sound" data-p="ocean" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M1 13c3 0 4-7 9-7 3 0 4 3 2 4"/><path d="M1 18c4-2 8 2 13 0s9 2 13 0"/></svg>
+        <b>Ocean Waves</b><span>Slow waves rolling up a beach and drawing back.</span>
+      </button>
+      <button class="sound" data-p="waterfall" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M2 2h14"/><path d="M7 4v10M10.5 4v11M14 4v9"/><path d="M2 17c3-2 6 2 9 0s6 2 9 0 4 0 6-1"/></svg>
+        <b>Waterfall</b><span>A steady fall of water, deep and full.</span>
+      </button>
+      <button class="sound" data-p="trees" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 19v-5M8 14c-4 0-5-3-4-5 0-3 3-5 5-4 2-2 6 0 5 3 2 1 1 6-2 6z"/><path d="M18 7h7M17 11h9M19 15h5"/></svg>
+        <b>Wind in the Trees</b><span>Wind rising and falling through the leaves.</span>
+      </button>
+      <button class="sound" data-p="birdsong" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><path d="M3 11c3 0 5-4 9-4 3 0 4 2 5 3l5-2-3 4c0 4-4 6-9 6-3 0-6-2-7-7z"/><circle cx="14" cy="9.5" r=".8" fill="currentColor" stroke="none"/></svg>
+        <b>Birdsong</b><span>Birds singing now and then, some near, some far.</span>
+      </button>
+      <button class="sound" data-p="crickets" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M10 2a7 7 0 1 0 7 10A6 6 0 0 1 10 2z"/><path d="M21 3v3M19.5 4.5h3M24 10v2M23 11h2"/></svg>
+        <b>Crickets at Night</b><span>A warm summer night, crickets in the grass.</span>
+      </button>
+    </div>
+    <div class="sounds" data-g="ambient">
+      <button class="sound" data-p="white" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M1 10l2-6 2 12 2-9 2 7 2-11 2 13 2-8 2 6 2-10 2 12 2-7 2 4 2-3"/></svg>
+        <b>White Noise</b><span>An even, bright hiss. Good at covering other noise.</span>
+      </button>
+      <button class="sound" data-p="pink" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><path d="M1 10l2.5-4 2.5 8 2.5-6 2.5 5 2.5-7 2.5 8 2.5-5 2.5 4 2.5-6 2.5 3"/></svg>
+        <b>Pink Noise</b><span>Softer and less hissy than white.</span>
+      </button>
+      <button class="sound" data-p="brown" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M1 10c3-6 5 4 8-2s5 6 9 1 6-3 9 0"/></svg>
+        <b>Brown Noise</b><span>A deep, low rumble. The softest of the three.</span>
+      </button>
+      <button class="sound" data-p="chimes" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M3 2h22M6 2v3M11 2v3M17 2v3M22 2v3"/><rect x="5" y="5" width="2" height="9" rx=".5"/><rect x="10" y="5" width="2" height="12" rx=".5"/><rect x="16" y="5" width="2" height="10" rx=".5"/><rect x="21" y="5" width="2" height="7" rx=".5"/></svg>
+        <b>Wind Chimes</b><span>Tuned chimes stirring in a light breeze.</span>
+      </button>
+      <button class="sound" data-p="fire" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 1c1 3 5 5 5 9a5 5 0 0 1-10 0c0-2 1.5-3 2.5-5 0 1.5 1 2.5 2 2.5 0-2.5-1-4 .5-6.5z"/><path d="M6 19l16-3M6 16l16 3"/></svg>
+        <b>Fireplace</b><span>A log fire crackling and settling.</span>
+      </button>
+      <button class="sound" data-p="purr" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><path d="M5 9 4 2l6 4h8l6-4-1 7c1 1.5 1.5 3 1.5 4.5 0 3.5-5 5.5-10.5 5.5S3.5 17 3.5 13.5C3.5 12 4 10.5 5 9z"/><g fill="currentColor" stroke="none"><circle cx="10" cy="12" r=".9"/><circle cx="18" cy="12" r=".9"/></g></svg>
+        <b>Cat Purring</b><span>A contented cat purring right next to you.</span>
+      </button>
+      <button class="sound" data-p="fan" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><circle cx="14" cy="10" r="8.5"/><circle cx="14" cy="10" r="1.3"/><path d="M14 8.7c0-3 2-5 4-4M15.2 10.8c2.5 1.5 3 4 1 5M12.8 10.6c-2.6 1.4-5 .6-5-1.6"/></svg>
+        <b>Fan Hum</b><span>The steady hum of a bedroom fan.</span>
+      </button>
+      <button class="sound" data-p="drone" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M1 7c6-3 20-3 26 0M1 11c6-3 20-3 26 0M1 15c6-3 20-3 26 0"/></svg>
+        <b>Deep Drone</b><span>Very low held tones that barely move.</span>
+      </button>
+      <button class="sound" data-p="room" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h8l3 7H7z"/><path d="M14 10v8M10 18h8"/></svg>
+        <b>Quiet Room</b><span>The near-silence of a still room at night.</span>
+      </button>
+      <button class="sound" data-p="train" aria-pressed="false">
+        <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><rect x="5" y="2" width="18" height="13" rx="3"/><path d="M5 9h18M8 15l-3 4M20 15l3 4M3 19h22"/><g fill="currentColor" stroke="none"><circle cx="10" cy="12" r=".9"/><circle cx="18" cy="12" r=".9"/></g></svg>
+        <b>Night Train</b><span>Wheels on the rails of a long night train.</span>
       </button>
     </div>
   </section>
@@ -240,22 +361,12 @@ html[data-app] .web-only{display:none}
       <button class="ghost" id="resetmix" hidden>Reset</button>
     </div>
     <p class="hint" id="mixhint">Your changes are kept for this sound, even after you switch away and back.</p>
-    <div class="mix">
-      <label for="m-piano">Piano<small>felt, far away</small></label><input type="range" id="m-piano" min="0" max="1" step="0.01">
-      <label for="m-bells">Bells<small>soft, long ring</small></label><input type="range" id="m-bells" min="0" max="1" step="0.01">
-      <label for="m-bass">Deep bass<small>slow low drone</small></label><input type="range" id="m-bass" min="0" max="1" step="0.01">
-      <label for="m-pad">Pad<small>held chords</small></label><input type="range" id="m-pad" min="0" max="1" step="0.01">
-      <label for="m-air">Air<small>distant sea hush</small></label><input type="range" id="m-air" min="0" max="1" step="0.01">
-      <label for="m-synth">Synth swells<small>slow 80s brass chords</small></label><input type="range" id="m-synth" min="0" max="1" step="0.01">
-      <label for="m-lead">Synth lead<small>lonely line with echo</small></label><input type="range" id="m-lead" min="0" max="1" step="0.01">
-      <label for="m-rain">Rain on glass<small>drops on the window</small></label><input type="range" id="m-rain" min="0" max="1" step="0.01">
-      <label for="m-shower">Slow rain<small>soft, on leaves</small></label><input type="range" id="m-shower" min="0" max="1" step="0.01">
-      <label for="m-thunder">Thunder<small>far away, now and then</small></label><input type="range" id="m-thunder" min="0" max="1" step="0.01">
-      <label for="m-river">River<small>shallow stream</small></label><input type="range" id="m-river" min="0" max="1" step="0.01">
-    </div>
+    <div class="mix" id="mix"></div>
+    <button class="ghost" id="allmix" style="align-self:flex-start"></button>
   </section>
 
   <footer>
+    <p>Every sound here is made live in your browser, not recorded, so the nature and ambient sounds are close likenesses rather than recordings.</p>
     <p>Headphones bring out the deep bass. Phone speakers can't play the lowest notes.</p>
     <p class="web-only">Keep this page open. On a phone, locking the screen can pause the music, so use “Dim the screen” instead. The Slow Hours phone app keeps playing when locked.</p>
     <p class="app-only">You can lock your phone. The music keeps playing and stops itself when the timer ends. Pause it from the lock screen.</p>
@@ -274,18 +385,62 @@ const PRESETS = {
   night:   {name:'Night Mix',    harmony:'major', mix:{piano:.6, bells:.45, bass:.55, pad:.3,  air:.1}},
   city:    {name:'Night City',   harmony:'minor', mix:{bass:.6, synth:.7, lead:.55, rain:.45}},
   offworld:{name:'Off-World',    harmony:'minor', mix:{bells:.3, bass:.75, pad:.2, air:.15, synth:.8}},
-  slowrain:{name:'Slow Rain',    harmony:'major', mix:{shower:.8, rain:.12}},
-  storm:   {name:'Soft Storm',   harmony:'major', mix:{shower:.75, rain:.25, thunder:.8}},
-  river:   {name:'Gentle River', harmony:'major', mix:{river:.8, air:.12}},
-  rainpiano:{name:'Rain & Piano',harmony:'major', mix:{piano:.65, pad:.15, bass:.3, shower:.55, thunder:.3}},
+  softpiano:  {name:'Soft Piano',      mix:{piano:.85}},
+  panpipes:   {name:'Panpipes',        mix:{panpipes:.75, bass:.3, pad:.15, air:.08}},
+  bamboo:     {name:'Bamboo Flute',    mix:{bamboo:.75, bass:.3, pad:.12, air:.1}},
+  nativeflute:{name:'Native Flute',    harmony:'minor', mix:{nativeflute:.75, bass:.35, wind:.12}},
+  harp:       {name:'Harp',            mix:{harp:.75, bass:.25, pad:.12}},
+  guitar:     {name:'Acoustic Guitar', mix:{guitar:.8, pad:.08}},
+  cello:      {name:'Soft Cello',      harmony:'minor', mix:{cello:.75, pad:.12, bass:.2}},
+  bowls:      {name:'Singing Bowls',   mix:{bowls:.8, drone:.2}},
+  handpan:    {name:'Handpan',         harmony:'minor', mix:{handpan:.8, bass:.25}},
+  marimba:    {name:'Soft Marimba',    mix:{marimba:.8, pad:.12, bass:.2}},
+  slowrain:{name:'Slow Rain',    mix:{shower:.8, rain:.12}},
+  storm:   {name:'Soft Storm',   mix:{shower:.75, rain:.25, thunder:.8}},
+  river:   {name:'Gentle River', mix:{river:.8, air:.12}},
+  rainpiano:{name:'Rain & Piano',mix:{piano:.65, pad:.15, bass:.3, shower:.55, thunder:.3}},
+  brook:    {name:'Babbling Brook',   mix:{brook:.8}},
+  window:   {name:'Rain on a Window', mix:{rain:.85, air:.1}},
+  ocean:    {name:'Ocean Waves',      mix:{waves:.85, wind:.08}},
+  waterfall:{name:'Waterfall',        mix:{waterfall:.8}},
+  trees:    {name:'Wind in the Trees',mix:{wind:.8}},
+  birdsong: {name:'Birdsong',         mix:{birds:.7, wind:.12}},
+  crickets: {name:'Crickets at Night',mix:{crickets:.6, air:.1}},
+  white:  {name:'White Noise', mix:{white:.6}},
+  pink:   {name:'Pink Noise',  mix:{pink:.7}},
+  brown:  {name:'Brown Noise', mix:{brown:.8}},
+  chimes: {name:'Wind Chimes', mix:{chimes:.6, wind:.25}},
+  fire:   {name:'Fireplace',   mix:{fire:.8}},
+  purr:   {name:'Cat Purring', mix:{purr:.8, room:.15}},
+  fan:    {name:'Fan Hum',     mix:{fan:.75}},
+  drone:  {name:'Deep Drone',  harmony:'minor', mix:{drone:.8, air:.12}},
+  room:   {name:'Quiet Room',  mix:{room:.8}},
+  train:  {name:'Night Train', mix:{train:.8}},
 };
 const PACE = {slow:.75, slower:1, slowest:1.5};
-const LAYERS = ['piano','bells','bass','pad','air','synth','lead','rain','shower','thunder','river'];
+// Loudness trim per sound (in dB), measured so that switching sounds doesn't jump in volume.
+const TRIM = {softpiano:11, panpipes:4, bamboo:4, nativeflute:4.5, harp:6, guitar:11, cello:9, bowls:8, handpan:7.5, marimba:6.5,
+  brook:1.5, window:5, waterfall:-4.5, trees:-8, birdsong:5, white:-3, brown:-2, chimes:2, purr:4.5, fan:2, room:2, train:-3};
+const outLevel = () => state.volume*Math.pow(10, (TRIM[state.preset] || 0)/20);
+// Every layer, in the order the Mix sliders show them: [name, hint, dry, reverb, echo]
+const LAYER_INFO = {
+  piano:['Piano','felt, far away',.55,.6], bells:['Bells','soft, long ring',.45,.7], bowls:['Singing bowls','bronze, long hum',.5,.6],
+  chimes:['Wind chimes','tuned, in a breeze',.5,.6], harp:['Harp','plucked, rolled chords',.55,.6], guitar:['Guitar','nylon, fingerpicked',.7,.35],
+  marimba:['Marimba','soft wooden bars',.6,.5], handpan:['Handpan','round steel notes',.55,.6], panpipes:['Panpipes','breathy pipes',.55,.65],
+  bamboo:['Bamboo flute','bends into notes',.55,.65], nativeflute:['Native flute','low and hollow',.55,.7], cello:['Cello','long bowed notes',.6,.5],
+  synth:['Synth swells','slow 80s brass chords',.55,.75,.18], lead:['Synth lead','lonely line with echo',.45,.7,.5],
+  pad:['Pad','held chords',.6,.5], bass:['Deep bass','slow low drone',1,.12], drone:['Deep drone','barely moving',.7,.4],
+  air:['Air','distant sea hush',.8,.25], rain:['Rain on glass','drops on the window',.9,.15], shower:['Slow rain','soft, on leaves',.85,.2],
+  thunder:['Thunder','far away, now and then',.8,.35], river:['River','shallow stream',.85,.15], brook:['Brook','quick, bubbling',.85,.15],
+  waves:['Waves','slow, on a beach',.9,.15], waterfall:['Waterfall','steady and full',.95,.1], wind:['Wind','through the trees',.85,.2],
+  birds:['Birds','now and then',.6,.45], crickets:['Crickets','summer night',.8,.25], fire:['Fire','crackling logs',.95,.08],
+  purr:['Cat','purring',1,.05], fan:['Fan','steady hum',1,0], room:['Room','still, at night',1,.05], train:['Train','wheels on rails',.95,.08],
+  white:['White noise','bright hiss',1,0], pink:['Pink noise','softer hiss',1,0], brown:['Brown noise','deep rumble',1,0],
+};
+const LAYERS = Object.keys(LAYER_INFO);
 const SILENT = Object.fromEntries(LAYERS.map(k => [k,0]));
-for(const p of Object.values(PRESETS)) p.mix = {...SILENT, ...p.mix};
-const ROUTE = {piano:{dry:.55,wet:.6}, bells:{dry:.45,wet:.7}, bass:{dry:1,wet:.12}, pad:{dry:.6,wet:.5}, air:{dry:.8,wet:.25},
-               synth:{dry:.55,wet:.75,echo:.18}, lead:{dry:.45,wet:.7,echo:.5}, rain:{dry:.9,wet:.15},
-               shower:{dry:.85,wet:.2}, thunder:{dry:.8,wet:.35}, river:{dry:.85,wet:.15}};
+for(const p of Object.values(PRESETS)){ p.mix = {...SILENT, ...p.mix}; p.harmony = p.harmony || 'major'; }
+const ROUTE = Object.fromEntries(LAYERS.map(k => [k, {dry:LAYER_INFO[k][2], wet:LAYER_INFO[k][3], echo:LAYER_INFO[k][4]}]));
 const KEY = 1; // everything sits in D flat (major) or B flat minor
 // Roots are deep bass MIDI notes; pcs are the chord's pitch classes (9th chords).
 const PROGS = {
@@ -301,7 +456,7 @@ const PROGS = {
 };
 const LEAD_SCALE = [9,0,2,4,7]; // minor pentatonic, sits over every minor chord above
 
-let state = {preset:'piano', harmony:'major', mix:{...PRESETS.piano.mix}, tweaks:{}, minutes:30, pace:'slower', volume:.8};
+let state = {preset:'piano', harmony:'major', mix:{...PRESETS.piano.mix}, tweaks:{}, minutes:30, pace:'slower', volume:.8, group:'', showAll:false};
 try{ const s = JSON.parse(localStorage.getItem('slowhours')||'null'); if(s && s.mix) state = Object.assign(state, s, {mix:{...SILENT, ...s.mix}, tweaks:s.tweaks || {}}); }catch(e){}
 if(!PRESETS[state.preset]){ state.preset = 'piano'; state.mix = {...PRESETS.piano.mix}; state.harmony = 'major'; }
 const save = () => { try{ localStorage.setItem('slowhours', JSON.stringify(state)); }catch(e){} };
@@ -341,6 +496,32 @@ function silentUnlock(){
     unlock.play().catch(()=>{});
   }catch(e){}
 }
+
+/* ---------- building blocks ---------- */
+const BUF = {};   // noise buffers are made once and shared
+function nbuf(name, sec, chans, fill){
+  if(BUF[name]) return BUF[name];
+  const rate = ctx.sampleRate, b = ctx.createBuffer(chans, Math.floor(sec*rate), rate);
+  for(let c=0;c<chans;c++) fill(b.getChannelData(c), rate, c);
+  return BUF[name] = b;
+}
+const whiteF = d => { for(let i=0;i<d.length;i++) d[i] = Math.random()*2-1; };
+const brownF = d => { let y = 0; for(let i=0;i<d.length;i++){ y = (y + .02*(Math.random()*2-1))/1.02; d[i] = y*3.5; } };
+const pinkF = d => {   // Paul Kellet's pink filter
+  let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+  for(let i=0;i<d.length;i++){
+    const w = Math.random()*2-1;
+    b0 = .99886*b0 + w*.0555179; b1 = .99332*b1 + w*.0750759; b2 = .969*b2 + w*.153852;
+    b3 = .8665*b3 + w*.3104856; b4 = .55*b4 + w*.5329522; b5 = -.7616*b5 - w*.016898;
+    d[i] = (b0+b1+b2+b3+b4+b5+b6 + w*.5362)*.11; b6 = w*.115926;
+  }
+};
+function loopSrc(b, offset){ const s = ctx.createBufferSource(); s.buffer = b; s.loop = true; s.start(0, offset || 0); return s; }
+function chain(...n){ for(let i=0;i<n.length-1;i++) n[i].connect(n[i+1]); return n[n.length-1]; }
+function filt(type, f, q){ const n = ctx.createBiquadFilter(); n.type = type; n.frequency.value = f; if(q != null) n.Q.value = q; return n; }
+function gain(v){ const g = ctx.createGain(); g.gain.value = v; return g; }
+function lfoTo(param, rate, depth){ const o = ctx.createOscillator(), g = gain(depth); o.frequency.value = rate; o.connect(g); g.connect(param); o.start(); return o; }
+function panner(v){ const p = ctx.createStereoPanner(); p.pan.value = v; return p; }
 
 /* ---------- instruments ---------- */
 function env(g, t, peak, attack, tau, end){
@@ -520,45 +701,43 @@ function startShower(){
   return nodes;
 }
 
-// A babbling stream: noise through narrow filters that wander, plus a low body and the odd bubble (scheduled in riverStep).
-function startRiver(){
-  const rate = ctx.sampleRate, len = rate*6, b = ctx.createBuffer(1, len, rate), d = b.getChannelData(0);
-  for(let i=0;i<len;i++) d[i] = Math.random()*2-1;
-  const nodes = [];
-  S.riverF = [];
+// Running water: noise through narrow filters that wander, plus a low body and the odd bubble (scheduled in streamStep).
+const STREAM = {
+  river:{lo:450, hi:2400, q:[3,7],  g:.2,  body:.35, bub:.1, gap:[.06,.18], bf:[400,900]},
+  brook:{lo:800, hi:4200, q:[5,10], g:.3,  body:.12, bub:.45,gap:[.04,.11], bf:[700,1500]},
+};
+function startStream(k){
+  const c = STREAM[k], b = nbuf('white6', 6, 1, whiteF), nodes = [], fs = [];
   for(let i=0;i<5;i++){
-    const src = ctx.createBufferSource(); src.buffer = b; src.loop = true;
-    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = rand(3,7); bp.frequency.value = rand(500,2000);
-    const g = ctx.createGain(); g.gain.value = .2;
+    const src = loopSrc(b, rand(0,5)), bp = filt('bandpass', rand(c.lo,c.hi), rand(...c.q)), g = gain(c.g);
     const pan = ctx.createStereoPanner(); pan.pan.value = -.8 + i*.4;
-    src.connect(bp); bp.connect(g); g.connect(pan); pan.connect(S.buses.river);
-    src.start(0, rand(0,5)); nodes.push(src); S.riverF.push({bp, g});
+    chain(src, bp, g, pan).connect(S.buses[k]); nodes.push(src); fs.push({bp, g});
   }
-  const body = ctx.createBufferSource(); body.buffer = b; body.loop = true;
-  const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 450;
-  const bg = ctx.createGain(); bg.gain.value = .35;
-  body.connect(lp); lp.connect(bg); bg.connect(S.buses.river); body.start(0, 2.5); nodes.push(body);
+  const body = loopSrc(b, 2.5);
+  chain(body, filt('lowpass', 450), gain(c.body)).connect(S.buses[k]); nodes.push(body);
+  S.streams[k] = fs;
   return nodes;
 }
-
-function riverStep(t){
-  for(const f of S.riverF){
+function streamStep(k, t){
+  const c = STREAM[k], fs = S.streams[k];
+  if(!fs) return;
+  for(const f of fs){
     if(Math.random() < .5){
-      f.bp.frequency.setTargetAtTime(rand(450,2400), t, rand(.03,.12));
-      f.g.gain.setTargetAtTime(rand(.08,.5), t, .06);
+      f.bp.frequency.setTargetAtTime(rand(c.lo,c.hi), t, rand(.03,.12));
+      f.g.gain.setTargetAtTime(rand(.4,2.5)*c.g, t, .06);
     }
   }
-  if(Math.random() < .1){
-    const o = ctx.createOscillator(), g = ctx.createGain(), f0 = rand(400,900);
+  if(Math.random() < c.bub){
+    const o = ctx.createOscillator(), g = ctx.createGain(), f0 = rand(...c.bf);
     o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f0*rand(1.6,2.4), t + rand(.04,.08));
     g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(rand(.03,.08), t+.005); g.gain.setTargetAtTime(0, t+.01, .03);
-    o.connect(g); g.connect(S.buses.river); o.start(t); o.stop(t+.3);
+    o.connect(g); g.connect(S.buses[k]); o.start(t); o.stop(t+.3);
   }
 }
 
 // Distant thunder: brown noise through a closing low filter, a few swells, then a long fade.
 function thunder(t){
-  const src = ctx.createBufferSource(); src.buffer = S.brown; src.loop = true; src.playbackRate.value = rand(.6,.9);
+  const src = ctx.createBufferSource(); src.buffer = nbuf('brown10', 10, 1, brownF); src.loop = true; src.playbackRate.value = rand(.6,.9);
   const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = .7;
   lp.frequency.setValueAtTime(rand(380,650), t); lp.frequency.setTargetAtTime(110, t+1.2, 3);
   const g = ctx.createGain(), pan = ctx.createStereoPanner(), out = ctx.createGain();
@@ -594,6 +773,369 @@ function startRain(){
   return [src, lfo];
 }
 
+/* ---------- solo instruments ---------- */
+// Walk a melody through the current chord's notes, one small step at a time, kept between lo and hi.
+function walk(k, t, lo, hi){
+  const ch = chordAt(t), c = [];
+  for(let m=lo;m<=hi;m++) if(ch.pcs.includes(m%12)) c.push(m);
+  const prev = S.walk[k] || (lo+hi)/2;
+  let i = 0, best = 99;
+  c.forEach((m,j) => { const d = Math.abs(m - prev); if(d < best){ best = d; i = j; } });
+  let step = pick([-2,-1,-1,0,1,1,2]);
+  if(prev > hi-5) step = -Math.abs(step) || -1;
+  if(prev < lo+5) step = Math.abs(step) || 1;
+  i = Math.max(0, Math.min(c.length-1, i+step));
+  return S.walk[k] = c[i];
+}
+function chordNotes(t, lo, hi){ const ch = chordAt(t), c = []; for(let m=lo;m<=hi;m++) if(ch.pcs.includes(m%12)) c.push(m); return c; }
+
+// Flutes: a few harmonics, breath noise tuned to the note, vibrato that creeps in.
+const FLUTE = {
+  panpipes:   {lo:67, hi:84, len:[1.4,2.6], h:[1,.04,.16,0,.04], breath:.5, vib:4,  chiff:.35},
+  bamboo:     {lo:62, hi:79, len:[2,3.6],   h:[1,.22,.1,.03],    breath:.7, vib:14, chiff:.15, scoop:true},
+  nativeflute:{lo:58, hi:74, len:[2.2,4],   h:[1,.05,.2,.02],    breath:.45,vib:18, chiff:.1,  grace:true},
+};
+function flute(k, t, m, v, dur){
+  const c = FLUTE[k], f = mtof(m), end = t + dur;
+  const env = gain(0), out = gain(v*.1);
+  env.gain.setValueAtTime(0, t); env.gain.linearRampToValueAtTime(1, t+.14);
+  env.gain.setTargetAtTime(.8, t+.14, .6); env.gain.setTargetAtTime(0, end-.15, .25);
+  chain(env, filt('lowpass', 3800), out).connect(S.buses[k]);
+  const vib = ctx.createOscillator(), vg = gain(0);
+  vib.frequency.value = 4.6; vib.connect(vg);
+  vg.gain.setValueAtTime(0, t); vg.gain.linearRampToValueAtTime(c.vib, t + Math.min(1.4, dur*.6));
+  c.h.forEach((a,i) => {
+    if(!a) return;
+    const n = i+1, o = ctx.createOscillator(), og = gain(a);
+    if(c.scoop){ o.frequency.setValueAtTime(f*n*.95, t); o.frequency.setTargetAtTime(f*n, t, .09); }
+    else if(c.grace){ o.frequency.setValueAtTime(f*n*1.1225, t); o.frequency.setTargetAtTime(f*n, t+.08, .02); }
+    else o.frequency.value = f*n;
+    vg.connect(o.detune); chain(o, og, env); o.start(t); o.stop(end+1.5);
+  });
+  const ns = ctx.createBufferSource(); ns.buffer = nbuf('white6', 6, 1, whiteF);
+  chain(ns, filt('bandpass', f, 3), gain(c.breath*2.2), env); ns.start(t, rand(0,5)); ns.stop(end+1.5);
+  const cs = ctx.createBufferSource(), cg = gain(0); cs.buffer = ns.buffer;     // the soft "chiff" as the breath starts the note
+  cg.gain.setValueAtTime(0, t); cg.gain.linearRampToValueAtTime(c.chiff, t+.02); cg.gain.setTargetAtTime(0, t+.03, .05);
+  chain(cs, filt('bandpass', f*3, 1.5), cg, out); cs.start(t, rand(0,5)); cs.stop(t+.5);
+  vib.start(t); vib.stop(end+1.5);
+  S.events.push({at:t, kind:'piano'});
+}
+function fluteStep(k, t, play, P){
+  const c = FLUTE[k];
+  if(!S.phr[k]) S.phr[k] = 2 + Math.floor(Math.random()*4);
+  const last = S.phr[k] === 1, dur = rand(...c.len)*P*(last ? 1.5 : 1);
+  if(play) flute(k, t, walk(k, t, c.lo, c.hi), rand(.55,.85), dur);
+  S.phr[k]--;
+  return dur + (last ? rand(5,11)*P : .06);
+}
+
+// Cello: two bowed saws through a woody body, slow bow, late vibrato.
+function cello(t, m, v, dur){
+  const f = mtof(m), end = t + dur;
+  const env = gain(0), lp = filt('lowpass', 900, .7), body = filt('peaking', 260, 1.2), out = gain(v*.14);
+  body.gain.value = 5;
+  env.gain.setValueAtTime(0, t); env.gain.linearRampToValueAtTime(1, t + Math.min(1.2, dur*.3));
+  env.gain.setTargetAtTime(.75, t+1.2, 1.5); env.gain.setTargetAtTime(0, end-.2, .45);
+  lp.frequency.setValueAtTime(600, t); lp.frequency.setTargetAtTime(1500, t, .8); lp.frequency.setTargetAtTime(900, t + dur*.6, 1.2);
+  chain(env, body, lp, out).connect(S.buses.cello);
+  const vib = ctx.createOscillator(), vg = gain(0);
+  vib.frequency.value = 5.2; vib.connect(vg); vg.gain.setValueAtTime(0, t+.5); vg.gain.linearRampToValueAtTime(13, t+1.6);
+  [-4,4].forEach(d => {
+    const o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f; o.detune.value = d;
+    vg.connect(o.detune); chain(o, gain(.5), env); o.start(t); o.stop(end+3);
+  });
+  vib.start(t); vib.stop(end+3);
+  S.events.push({at:t, kind:'deep'});
+}
+function celloStep(t, play, P){
+  if(!S.phr.cello) S.phr.cello = 2 + Math.floor(Math.random()*3);
+  const last = S.phr.cello === 1, dur = rand(3.5,6.5)*P*(last ? 1.4 : 1);
+  if(play) cello(t, walk('cello', t, 43, 62), rand(.6,.9), dur);
+  S.phr.cello--;
+  return dur + (last ? rand(6,12)*P : .1);
+}
+
+// Plucked strings (harp, guitar): harmonics shaped by where the string is plucked; higher ones die first.
+function pluck(k, t, m, v, o){
+  const f = mtof(m), len = Math.min(10, Math.max(1.5, o.decay*(1 + (64-m)*.03)));
+  const out = gain(v*o.level), lp = filt('lowpass', 1200 + o.bright*3000*v, .2);
+  lp.frequency.exponentialRampToValueAtTime(Math.max(300, (1200 + o.bright*3000*v)*.4), t + len*.5);
+  chain(lp, out).connect(S.buses[k]);
+  for(let n=1;n<=8;n++){
+    const a = Math.abs(Math.sin(n*Math.PI*o.pos))/Math.pow(n, o.roll);
+    if(a < .02) continue;
+    const osc = ctx.createOscillator(), g = ctx.createGain();
+    osc.frequency.value = f*n*Math.sqrt(1 + .00015*n*n);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(a, t+.004); g.gain.setTargetAtTime(0, t+.004, len/(4*Math.pow(n,.7)));
+    chain(osc, g, lp); osc.start(t); osc.stop(t + len*1.3);
+  }
+  S.events.push({at:t, kind:'piano'});
+}
+const HARP = {decay:6, bright:.35, pos:.33, roll:1.5, level:.13};
+const GUITAR = {decay:3.4, bright:.55, pos:.17, roll:1.1, level:.27};
+function harpStep(t, play, P){
+  if(Math.random() < .3){
+    const c = chordNotes(t, 50, 79), s = Math.floor(rand(0, Math.max(1, c.length-5))), n = 4 + (Math.random() < .5 ? 1 : 0);
+    if(play) for(let i=0;i<n && s+i<c.length;i++) pluck('harp', t + i*rand(.13,.2)*P, c[s+i], .55 - i*.05, HARP);
+    return rand(4.5,7.5)*P;
+  }
+  if(play) pluck('harp', t, walk('harp', t, 62, 84), rand(.4,.6), HARP);
+  return rand(1.8,3.4)*P + (Math.random() < .2 ? rand(3,7)*P : 0);
+}
+function guitarStep(t, play, P){
+  const ch = chordAt(t), s = rand(.45,.62)*P;
+  let bassM = 40 + ((ch.root % 12) + 12 - 4) % 12;          // root, low E to D#
+  const up = chordNotes(t, 55, 71), n = 3 + Math.floor(Math.random()*2), st = Math.floor(rand(0, Math.max(1, up.length-n)));
+  if(play){
+    pluck('guitar', t, bassM, .55, GUITAR);
+    for(let i=0;i<n && st+i<up.length;i++) pluck('guitar', t + (i+1)*s, up[st+i], rand(.32,.45), GUITAR);
+  }
+  return (n+1)*s + rand(.8,2.6)*P;
+}
+
+// Struck metal and wood: partial ratios set the instrument, a detuned twin gives the slow beating of a bowl.
+function strike(k, t, m, v, spec){
+  const f = mtof(m), out = gain(v*spec.level), lp = filt('lowpass', spec.lp);
+  chain(lp, out, panner(spec.pan || 0)).connect(S.buses[k]);
+  spec.parts.forEach(p => {
+    (spec.twin ? [1, 1 + rand(.002,.005)] : [1]).forEach(tw => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = f*p.r*tw;
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(p.a/(spec.twin ? 2 : 1), t + spec.attack);
+      g.gain.setTargetAtTime(0, t + spec.attack, spec.dur*p.d/5);
+      chain(o, g, lp); o.start(t); o.stop(t + spec.dur*p.d*1.4 + .5);
+    });
+  });
+  S.events.push({at:t, kind: spec.deep ? 'deep' : 'bell'});
+}
+const BOWL = {parts:[{r:1,a:1,d:1},{r:2.71,a:.5,d:.6},{r:5.15,a:.22,d:.35},{r:8.43,a:.08,d:.2}], level:.25, lp:3000, attack:.015, twin:true, deep:true};
+const HANDPAN = {parts:[{r:1,a:1,d:1},{r:2,a:.5,d:.75},{r:3,a:.2,d:.45},{r:1.003,a:.25,d:.9}], level:.21, lp:2600, attack:.007};
+const MARIMBA = {parts:[{r:1,a:1,d:1},{r:3.93,a:.18,d:.22},{r:9.2,a:.04,d:.08}], level:.5, lp:3200, attack:.003};
+const CHIME = {parts:[{r:1,a:1,d:1},{r:2.76,a:.4,d:.5},{r:5.4,a:.2,d:.3},{r:8.9,a:.08,d:.2}], level:.14, lp:9000, attack:.002};
+function bowlStep(t, play, P){
+  if(play){
+    const ch = chordAt(t), low = Math.random() < .4;
+    const m = low ? 48 + ch.root % 12 : pick(chordNotes(t, 55, 69));
+    strike('bowls', t, m, rand(.45,.7), {...BOWL, dur:rand(25,38)});
+    if(Math.random() < .3) strike('bowls', t + rand(3,6)*P, pick(chordNotes(t, 60, 74)), rand(.3,.45), {...BOWL, dur:rand(20,30)});
+  }
+  return rand(14,24)*P;
+}
+function handpanStep(t, play, P){
+  const n = 1 + Math.floor(Math.random()*3); let dt = 0;
+  if(play){
+    if(Math.random() < .25) strike('handpan', t, 50 + chordAt(t).root % 12, .6, {...HANDPAN, dur:7, deep:true});
+    else for(let i=0;i<n;i++){ strike('handpan', t+dt, walk('handpan', t+dt, 57, 77), rand(.4,.6), {...HANDPAN, dur:rand(4.5,6.5)}); dt += rand(.35,.7)*P; }
+  }
+  return dt + rand(2,4.5)*P;
+}
+function marimbaStep(t, play, P){
+  let dt = 0;
+  if(play){
+    const m = walk('marimba', t, 55, 79), dur = Math.min(2.6, Math.max(.8, 1.4 + (72-m)*.05));
+    if(Math.random() < .15){   // a soft roll on a held note
+      for(let i=0;i<10;i++){ strike('marimba', t + i*.085, m, .22*Math.sin(Math.PI*(i+.5)/10) + .05, {...MARIMBA, dur}); }
+      dt = 1;
+    } else {
+      strike('marimba', t, m, rand(.4,.6), {...MARIMBA, dur});
+      if(Math.random() < .25){ const c = chordNotes(t, m-9, m-1); if(c.length) strike('marimba', t+.02, c[c.length-1], .3, {...MARIMBA, dur}); }
+    }
+  }
+  return dt + rand(1.3,2.8)*P + (Math.random() < .15 ? rand(3,6)*P : 0);
+}
+const CHIME_NOTES = []; for(let m=79;m<=96;m++) if([0,2,4,7,9].includes(m%12)) CHIME_NOTES.push(m);
+function chimeStep(t, play, P){
+  const n = 2 + Math.floor(Math.random()*5); let dt = 0;
+  if(play) for(let i=0;i<n;i++){ strike('chimes', t+dt, pick(CHIME_NOTES), rand(.25,.6), {...CHIME, dur:rand(5,8), pan:rand(-.6,.6)}); dt += rand(.1,.6); }
+  return dt + rand(3,10)*P;
+}
+
+// Deep drone: a low root, fifth and octave that swell in over twelve seconds and blur into the next chord.
+function drone(t, ch, D){
+  const end = t + D, g = gain(0), lp = filt('lowpass', 320, .7);
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(1, t+12);
+  g.gain.setValueAtTime(1, end); g.gain.linearRampToValueAtTime(0, end+14);
+  const l = ctx.createOscillator(), lg = gain(140); l.frequency.value = .015; l.connect(lg); lg.connect(lp.frequency);
+  chain(lp, g, gain(.55)).connect(S.buses.drone);
+  [[ch.root,.6],[ch.root+7,.3],[ch.root+12,.35],[ch.root+19,.12]].forEach(([m,a]) => {
+    const s = ctx.createOscillator(); s.frequency.value = mtof(m); chain(s, gain(a), lp); s.start(t); s.stop(end+15);
+    [-5,5].forEach(d => { const o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = mtof(m); o.detune.value = d; chain(o, gain(a*.08), lp); o.start(t); o.stop(end+15); });
+  });
+  l.start(t); l.stop(end+15);
+  S.events.push({at:t, kind:'deep'});
+}
+
+/* ---------- nature & ambient ---------- */
+function startWaves(){
+  const src = loopSrc(nbuf('pink10', 10, 2, pinkF)), lp = filt('lowpass', 400), body = gain(.15), hiss = gain(.02), bus = S.buses.waves;
+  chain(src, lp, body).connect(bus);
+  chain(src, filt('highpass', 2500), hiss).connect(bus);
+  const r = loopSrc(nbuf('brown10', 10, 1, brownF), 3);
+  chain(r, filt('lowpass', 200), gain(.25)).connect(bus);
+  S.wave = {lp, body, hiss};
+  return [src, r];
+}
+function waveStep(t){
+  const W = S.wave, peak = rand(.5,1), rise = rand(2.5,4.5), fall = rand(5,9);
+  if(W){
+    W.body.gain.setTargetAtTime(.2 + 1.1*peak, t, rise/2.5); W.lp.frequency.setTargetAtTime(500 + 1600*peak, t, rise/2.5);
+    W.hiss.gain.setTargetAtTime(.5*peak, t+rise, .4); W.hiss.gain.setTargetAtTime(.03, t+rise+1, fall/3);
+    W.body.gain.setTargetAtTime(.15, t+rise, fall/3); W.lp.frequency.setTargetAtTime(350, t+rise, fall/3);
+    S.events.push({at:t+rise, kind:'deep'});
+  }
+  return rise + fall;
+}
+function startWaterfall(){
+  const bus = S.buses.waterfall, a = loopSrc(nbuf('pink10', 10, 2, pinkF), 4), b = loopSrc(nbuf('brown10', 10, 1, brownF), 6);
+  const g = gain(.75);
+  chain(a, filt('lowpass', 5000), g).connect(bus);
+  chain(b, filt('lowpass', 260), gain(.7)).connect(bus);
+  return [a, b, lfoTo(g.gain, .05, .08)];
+}
+function startWind(){
+  const bus = S.buses.wind, w = nbuf('white6', 6, 1, whiteF), nodes = [];
+  S.windF = [];
+  [-.6,.6].forEach(p => {
+    const src = loopSrc(w, rand(0,5)), bp = filt('bandpass', 500, 1.2), g = gain(1);
+    chain(src, bp, g, panner(p)).connect(bus); nodes.push(src); S.windF.push({bp, g});
+  });
+  const leaves = loopSrc(nbuf('pink10', 10, 2, pinkF), 7), lg = gain(.1);
+  chain(leaves, filt('highpass', 2500), lg).connect(bus); S.leaves = lg;
+  const low = loopSrc(nbuf('brown10', 10, 1, brownF), 1);
+  chain(low, filt('lowpass', 300), gain(.3)).connect(bus);
+  return [...nodes, leaves, low];
+}
+function windStep(t){
+  if(!S.windF) return;
+  const gust = rand(.15,1);
+  S.windF.forEach(f => { f.bp.frequency.setTargetAtTime(rand(280,650) + gust*500, t, rand(1.2,2.5)); f.g.gain.setTargetAtTime(.5 + gust*2.2, t, rand(1.2,2.5)); });
+  S.leaves.gain.setTargetAtTime(.03 + gust*.2, t, 1.5);
+}
+function birdPhrase(t){
+  const out = gain(.07*rand(.35,1)), lp = filt('lowpass', 7500);
+  chain(lp, out, panner(rand(-.8,.8))).connect(S.buses.birds);
+  const note = (t0, f0, f1, len, a) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(f0, t0); o.frequency.exponentialRampToValueAtTime(f1, t0+len);
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(a, t0 + len*.2); g.gain.linearRampToValueAtTime(0, t0+len);
+    chain(o, g, lp); o.start(t0); o.stop(t0+len+.02);
+  };
+  const kind = pick(['whistle','whistle','trill','chirps']);
+  let tt = t;
+  if(kind === 'whistle'){ const n = 3 + Math.floor(Math.random()*4); for(let i=0;i<n;i++){ const len = rand(.12,.35), f = rand(1800,3200); note(tt, f, f*rand(.8,1.25), len, rand(.5,1)); tt += len + rand(.03,.12); } }
+  else if(kind === 'trill'){ const f = rand(3500,5000), n = 8 + Math.floor(Math.random()*9); for(let i=0;i<n;i++){ note(tt, f, f*1.15, .04, .6); tt += .06; } }
+  else { const n = 2 + Math.floor(Math.random()*4); for(let i=0;i<n;i++){ const f = rand(2500,4000); note(tt, f, f*1.6, .07, .8); tt += rand(.12,.25); } }
+  S.events.push({at:t, kind:'piano'});
+  return tt - t;
+}
+function startCrickets(){
+  const bus = S.buses.crickets, nodes = [];
+  [7.3, 9.1].forEach((sec, li) => {
+    const b = nbuf('crick'+li, sec, 2, (d, rate) => {
+      for(let c=0;c<2;c++){
+        const f = rand(4200,5200), period = rand(.7,1.1), pulses = 3 + Math.floor(Math.random()*2), pr = rand(.022,.03), amp = rand(.25,.6), L = Math.floor(.014*rate);
+        for(let s=rand(0,period); s<sec-.2; s+=period*rand(.92,1.08))
+          for(let p=0;p<pulses;p++){ const st = Math.floor((s+p*pr)*rate); for(let j=0;j<L;j++) d[st+j] += amp*Math.sin(2*Math.PI*f*j/rate)*Math.sin(Math.PI*j/L); }
+      }
+    });
+    const src = loopSrc(b, rand(0,sec)); chain(src, filt('lowpass', 6500), gain(.5)).connect(bus); nodes.push(src);
+  });
+  const ch = loopSrc(nbuf('white6', 6, 1, whiteF), 3), cg = gain(.25);   // the far-off chorus
+  chain(ch, filt('bandpass', 4700, 18), cg).connect(bus);
+  return [...nodes, ch, lfoTo(cg.gain, .3, .15)];
+}
+function startFire(){
+  const bus = S.buses.fire, nodes = [], hp = filt('highpass', 150), g = gain(.7);
+  chain(hp, filt('lowpass', 6000), g).connect(bus);
+  [11, 16].forEach((sec, li) => {
+    const b = nbuf('fire'+li, sec, 2, (d, rate) => {
+      let y = 0;
+      for(let i=0;i<d.length;i++){ y += .05*((Math.random()*2-1) - y); d[i] = y*.12; }
+      for(let k=0;k<sec*10;k++){                       // crackles come in little clusters
+        const n = 1 + Math.floor(Math.pow(Math.random(),2)*6), pos = Math.floor(Math.random()*(sec-.3)*rate);
+        for(let c=0;c<n;c++){
+          const p = pos + Math.floor(rand(0,.06)*rate), dl = rand(4,40), amp = .06 + Math.pow(Math.random(),3)*.7;
+          for(let j=0;j<dl*6;j++) d[p+j] += amp*(Math.random()*2-1)*Math.exp(-j/dl);
+        }
+      }
+      for(let k=0;k<sec*.5;k++){                        // the odd soft pop of sap
+        const p = Math.floor(Math.random()*(sec-.3)*rate), dl = rand(150,400), amp = rand(.15,.4), f = rand(180,420);
+        for(let j=0;j<dl*6;j++) d[p+j] += amp*Math.sin(2*Math.PI*f*j/rate)*Math.exp(-j/dl);
+      }
+    });
+    const src = loopSrc(b, rand(0,sec)); src.connect(hp); nodes.push(src);
+  });
+  const r = loopSrc(nbuf('brown10', 10, 1, brownF), 5), rl = filt('lowpass', 220), rg = gain(.55);
+  chain(r, rl, rg).connect(bus);
+  return [...nodes, r, lfoTo(rg.gain, .13, .2), lfoTo(rl.frequency, .07, 60)];
+}
+function startPurr(){
+  const b = nbuf('purr', 23, 1, (d, rate) => {
+    let t = 0, y = 0, z = 0;
+    while(t < 23-3){
+      [[rand(.9,1.2), rand(23,26), .5], [rand(1.1,1.5), rand(21,24), 1]].forEach(([len, pr, a]) => {   // breathe in, then out
+        const s0 = Math.floor(t*rate), L = Math.floor(len*rate), per = rate/pr;
+        for(let j=0;j<L;j++){
+          y += .08*((Math.random()*2-1) - y); z += .3*(y - z);
+          d[s0+j] = z*3.2*Math.exp(-((j % per)/per)*5)*Math.pow(Math.sin(Math.PI*j/L), .6)*a;
+        }
+        t += len + rand(.02,.08);
+      });
+      t += rand(.05,.3);
+    }
+  });
+  const src = loopSrc(b);
+  chain(src, filt('lowpass', 700), gain(1.1), panner(-.15)).connect(S.buses.purr);
+  return [src];
+}
+function startFan(){
+  const bus = S.buses.fan, src = loopSrc(nbuf('pink10', 10, 2, pinkF), 2), g = gain(.6);
+  chain(src, filt('lowpass', 900), g).connect(bus);
+  const hum = ctx.createOscillator(), hum2 = ctx.createOscillator();
+  hum.frequency.value = 100; hum2.frequency.value = 200;
+  chain(hum, gain(.02)).connect(bus); chain(hum2, gain(.008)).connect(bus); hum.start(); hum2.start();
+  return [src, hum, hum2, lfoTo(g.gain, 13, .025)];
+}
+function startRoom(){
+  const bus = S.buses.room, src = loopSrc(nbuf('pink10', 10, 2, pinkF), 6), g = gain(.4);
+  chain(src, filt('lowpass', 260), filt('highpass', 40), g).connect(bus);
+  const hum = ctx.createOscillator(); hum.frequency.value = 50; chain(hum, gain(.006)).connect(bus); hum.start();
+  return [src, hum, lfoTo(g.gain, .03, .12)];
+}
+function startTrain(){
+  const bus = S.buses.train, r = loopSrc(nbuf('brown10', 10, 1, brownF), 2), rg = gain(.9);
+  chain(r, filt('lowpass', 160), rg).connect(bus);
+  const m = loopSrc(nbuf('pink10', 10, 2, pinkF), 1);
+  chain(m, filt('bandpass', 500, .8), gain(.18)).connect(bus);
+  return [r, m, lfoTo(rg.gain, .17, .15)];
+}
+function clack(t, v){
+  const g = gain(v), o = ctx.createOscillator(), og = ctx.createGain();
+  g.connect(S.buses.train);
+  o.frequency.setValueAtTime(75, t); o.frequency.exponentialRampToValueAtTime(42, t+.08);
+  og.gain.setValueAtTime(0, t); og.gain.linearRampToValueAtTime(.6, t+.002); og.gain.setTargetAtTime(0, t+.002, .05);
+  chain(o, og, g); o.start(t); o.stop(t+.4);
+  const n = ctx.createBufferSource(), ng = ctx.createGain(); n.buffer = nbuf('white6', 6, 1, whiteF);
+  ng.gain.setValueAtTime(0, t); ng.gain.linearRampToValueAtTime(.35, t+.002); ng.gain.setTargetAtTime(0, t+.002, .015);
+  chain(n, filt('bandpass', 1100, 1), ng, g); n.start(t, rand(0,5)); n.stop(t+.2);
+}
+function trainStep(t, play){
+  const v = rand(.8,1);
+  if(play){ clack(t, v); clack(t+.14, v*.9); clack(t+.52, v*.85); clack(t+.66, v*.8); S.events.push({at:t, kind:'bell'}); }
+  return 1.55*rand(.98,1.02);
+}
+function startNoise(kind){
+  const fill = {white:whiteF, pink:pinkF, brown:brownF}[kind], src = loopSrc(nbuf(kind+'10s', 10, 2, fill));
+  chain(src, filt('lowpass', kind === 'white' ? 14000 : 20000), gain({white:.22, pink:.55, brown:.9}[kind])).connect(S.buses[kind]);
+  return [src];
+}
+
+// Continuous layers start only when first heard, so a sound never pays for layers it doesn't use.
+const LOOPS = {air:startAir, rain:startRain, shower:startShower, river:() => startStream('river'), brook:() => startStream('brook'),
+  waves:startWaves, waterfall:startWaterfall, wind:startWind, crickets:startCrickets, fire:startFire, purr:startPurr,
+  fan:startFan, room:startRoom, train:startTrain, white:() => startNoise('white'), pink:() => startNoise('pink'), brown:() => startNoise('brown')};
+function ensureLoops(){ if(!S) return; for(const k in LOOPS) if(on(k) && !S.loops[k]){ S.loops[k] = true; S.air.push(...LOOPS[k]()); } }
+
 /* ---------- conductor ---------- */
 const on = k => state.mix[k] > .01;
 function chordAt(t){ let c = S.chords[0]; for(const x of S.chords) if(x.t <= t + .01) c = x; return c.ch; }
@@ -608,6 +1150,7 @@ function schedule(){
     if(on('bass')) bass(t, ch.root, D);
     if(on('pad')) pad(t, ch, D);
     if(on('synth')) swell(t, ch, D, P);
+    if(on('drone')) drone(t, ch, D);
     if(on('piano')){
       pianoNote(t+.05, ch.root+12, .3);
       if(Math.random() < .35) pianoNote(t+1.4*P, ch.root+19, .22);
@@ -641,10 +1184,25 @@ function schedule(){
     if(on('thunder')) thunder(S.nextThunder);
     S.nextThunder += rand(35,90);
   }
-  while(S.nextRiver < now + LOOK){
-    if(on('river')) riverStep(S.nextRiver);
-    S.nextRiver += rand(.06,.18);
-  }
+  for(const k of ['river','brook']) every(k, LOOK, t => { if(on(k)) streamStep(k, t); return rand(...STREAM[k].gap); });
+  for(const k in FLUTE) every(k, LOOK, t => fluteStep(k, t, on(k), P));
+  every('cello',   LOOK, t => celloStep(t, on('cello'), P));
+  every('harp',    LOOK, t => harpStep(t, on('harp'), P));
+  every('guitar',  LOOK, t => guitarStep(t, on('guitar'), P));
+  every('bowls',   LOOK, t => bowlStep(t, on('bowls'), P));
+  every('handpan', LOOK, t => handpanStep(t, on('handpan'), P));
+  every('marimba', LOOK, t => marimbaStep(t, on('marimba'), P));
+  every('chimes',  LOOK, t => chimeStep(t, on('chimes'), P));
+  every('waves',   LOOK, t => waveStep(t));
+  every('wind',    LOOK, t => { windStep(t); return rand(3,7); });
+  every('birds',   LOOK, t => (on('birds') ? birdPhrase(t) : 1) + rand(1.5,7));
+  every('train',   LOOK, t => trainStep(t, on('train')));
+}
+// Run one layer's own clock: fn plays whatever falls at time t and returns the wait until its next turn.
+function every(k, LOOK, fn){
+  const now = ctx.currentTime;
+  if(S.next[k] == null) S.next[k] = now + rand(.3,2.5);
+  while(S.next[k] < now + LOOK){ const t = S.next[k]; S.next[k] = t + Math.max(.03, fn(t)); }
 }
 
 function melodyNote(t){
@@ -683,7 +1241,7 @@ function start(){
   ctx.resume();
   const now = ctx.currentTime;
   const fade = ctx.createGain(), vol = ctx.createGain(), comp = ctx.createDynamicsCompressor();
-  vol.gain.value = state.volume;
+  vol.gain.value = outLevel();
   comp.threshold.value = -20; comp.knee.value = 24; comp.ratio.value = 3; comp.attack.value = .03; comp.release.value = .6;
   fade.connect(vol); vol.connect(comp); comp.connect(ctx.destination);
   const rev = ctx.createConvolver(), revG = ctx.createGain();
@@ -703,10 +1261,8 @@ function start(){
     if(ROUTE[k].echo){ const e = ctx.createGain(); e.gain.value = ROUTE[k].echo; b.connect(e); e.connect(echoIn); }
   });
   S = {fade, vol, comp, buses, events:[], chords:[], chordIdx:0, nextChord:now+.2, nextPiano:now+2.5, nextBell:now+5,
-       nextLead:now+7, nextThunder:now+rand(8,20), nextRiver:now+.1, leadNote:69, phrase:0, mel:67, startWall:Date.now(), endWall:Date.now() + state.minutes*60000};
-  S.brown = (() => { const len = ctx.sampleRate*10, b = ctx.createBuffer(1, len, ctx.sampleRate), d = b.getChannelData(0);
-    let y = 0; for(let i=0;i<len;i++){ y = (y + .02*(Math.random()*2-1))/1.02; d[i] = y*3.5; } return b; })();
-  S.air = [...startAir(), ...startRain(), ...startShower(), ...startRiver()];
+       nextLead:now+7, nextThunder:now+rand(8,20), next:{}, walk:{}, phr:{}, streams:{}, loops:{}, air:[], leadNote:69, phrase:0, mel:67, startWall:Date.now(), endWall:Date.now() + state.minutes*60000};
+  ensureLoops();
   scheduleFade(true);
   schedule();
   S.timer = setInterval(tick, 250);
@@ -773,7 +1329,7 @@ function rgba(hex, a){ const n = parseInt(hex.slice(1),16); return `rgba(${n>>16
 function size(){ const r = cv.getBoundingClientRect(), d = devicePixelRatio || 1; cv.width = r.width*d; cv.height = r.height*d; }
 
 function paint(breath, progress){
-  const w = cv.width, c = w/2, R = c - 4*(devicePixelRatio||1);
+  const w = cv.width, c = w/2, R = Math.max(1, c - 4*(devicePixelRatio||1));
   g2.clearRect(0,0,w,w);
   const gr = g2.createRadialGradient(c,c,0,c,c,R*.95);
   gr.addColorStop(0, rgba(C.candle, .08 + .1*breath));
@@ -812,6 +1368,9 @@ function drawStatic(){ paint(.35, 0); }
 addEventListener('resize', () => { size(); if(!S) drawStatic(); });
 
 /* ---------- UI ---------- */
+$('#mix').innerHTML = LAYERS.map(k => `<div class="layer" data-k="${k}"><label for="m-${k}">${LAYER_INFO[k][0]}<small>${LAYER_INFO[k][1]}</small></label><input type="range" id="m-${k}" min="0" max="1" step="0.01"></div>`).join('');
+const groupOf = p => document.querySelector(`.sound[data-p="${p}"]`).closest('.sounds').dataset.g;
+if(!state.group) state.group = groupOf(state.preset);
 function fmtClock(s){
   const h = Math.floor(s/3600), m = Math.floor(s%3600/60), x = s%60;
   return h ? `${h}:${String(m).padStart(2,'0')}:${String(x).padStart(2,'0')}` : `${m}:${String(x).padStart(2,'0')}`;
@@ -833,6 +1392,11 @@ function renderAll(){
   $('#resetmix').hidden = !state.tweaks[state.preset];
   $('#resetmix').textContent = `Reset ${PRESETS[state.preset].name}`;
   LAYERS.forEach(k => $('#m-'+k).value = state.mix[k]);
+  // Only the layers this sound uses, unless asked for all of them. A layer you've turned up stays in view.
+  document.querySelectorAll('.layer').forEach(r => { const k = r.dataset.k; r.hidden = !(state.showAll || PRESETS[state.preset].mix[k] > 0 || state.mix[k] > 0); });
+  $('#allmix').textContent = state.showAll ? 'Show only this sound’s layers' : `Add other layers (${LAYERS.length} in all)`;
+  document.querySelectorAll('#groups button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.g === state.group)));
+  document.querySelectorAll('.sounds').forEach(g => g.hidden = g.dataset.g !== state.group);
   $('#minutes').value = state.minutes;
   $('#timerval').textContent = fmtLen(state.minutes);
   document.querySelectorAll('.chip').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.m === state.minutes)));
@@ -841,7 +1405,7 @@ function renderAll(){
   $('#volume').value = state.volume;
   if(!S){ $('#time').textContent = fmtClock(state.minutes*60); $('#time').style.fontSize = ''; }
 }
-function applyMix(){ if(S) LAYERS.forEach(k => S.buses[k].gain.setTargetAtTime(state.mix[k], ctx.currentTime, .6)); }
+function applyMix(){ if(S){ ensureLoops(); S.vol.gain.setTargetAtTime(outLevel(), ctx.currentTime, .6); LAYERS.forEach(k => S.buses[k].gain.setTargetAtTime(state.mix[k], ctx.currentTime, .6)); } }
 
 $('#play').addEventListener('click', () => S ? stop(false) : start());
 document.querySelectorAll('.sound').forEach(b => b.addEventListener('click', () => {
@@ -852,6 +1416,8 @@ document.querySelectorAll('.sound').forEach(b => b.addEventListener('click', () 
 LAYERS.forEach(k => $('#m-'+k).addEventListener('input', e => {
   state.mix[k] = +e.target.value; state.tweaks[state.preset] = {...state.mix}; applyMix(); renderAll(); save();
 }));
+$('#allmix').addEventListener('click', () => { state.showAll = !state.showAll; renderAll(); save(); });
+document.querySelectorAll('#groups button').forEach(b => b.addEventListener('click', () => { state.group = b.dataset.g; renderAll(); save(); }));
 $('#resetmix').addEventListener('click', () => {
   delete state.tweaks[state.preset]; state.mix = {...PRESETS[state.preset].mix}; applyMix(); renderAll(); save();
 });
@@ -862,7 +1428,7 @@ function setMinutes(m){
 $('#minutes').addEventListener('input', e => setMinutes(+e.target.value));
 document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => setMinutes(+b.dataset.m)));
 document.querySelectorAll('#pace button').forEach(b => b.addEventListener('click', () => { state.pace = b.dataset.v; renderAll(); save(); }));
-$('#volume').addEventListener('input', e => { state.volume = +e.target.value; if(S) S.vol.gain.setTargetAtTime(state.volume, ctx.currentTime, .2); save(); });
+$('#volume').addEventListener('input', e => { state.volume = +e.target.value; if(S) S.vol.gain.setTargetAtTime(outLevel(), ctx.currentTime, .2); save(); });
 
 document.querySelectorAll('.sound').forEach(b => b.insertAdjacentHTML('beforeend', '<em class="tag" aria-hidden="true">Playing</em>'));
 size(); renderAll(); renderPlay(); drawStatic();

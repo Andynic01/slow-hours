@@ -1,5 +1,5 @@
 /* Slow Hours: offline support. Built by build.py; version changes with the content. */
-const CACHE = "slowhours-8fec5e1c5e", FONTS = "slowhours-fonts";
+const CACHE = "slowhours-64fced9605", FONTS = "slowhours-fonts";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icons/apple-touch-icon.png", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {
